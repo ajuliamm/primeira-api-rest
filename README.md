@@ -1,9 +1,9 @@
 # Primeira API REST
 
-Neste projeto foi desenvolvido uma API no padrão REST para um Banco Digital. Este foi o desafio do Módulo 2 do curso de backend da Cubos Academy. 
+Este projeto consiste na criação de uma API REST que simula um Banco Digital. A API foi desenvolvida como parte do desafio do Módulo 2 do curso de backend da Cubos Academy. Ela oferece uma variedade de funcionalidades para gerenciar contas bancárias, realizar transações e consultar informações de saldo e extrato.
 
-Meu papel foi construir uma RESTful API que permita:
-
+## Funcionalidades
+A API oferece as seguintes funcionalidades:
 -   Criar conta bancária
 -   Listar contas bancárias
 -   Atualizar os dados do usuário da conta bancária
@@ -15,69 +15,138 @@ Meu papel foi construir uma RESTful API que permita:
 -   Emitir extrato bancário
 
 
-## Boilerplate
+## Estrutura do projeto
 
--   O código está organizado, delimitando as responsabilidades de cada arquivo:
-    -   Um arquivo index.js
-    -   Um arquivo de rotas
-    -   Um pasta com controladores
-    -   Um arquivo de intermediários
+O código deste projeto está organizado da seguinte forma:
 
-## Endpoints
+- `index.js`: Arquivo principal da aplicação.
+- `rotas.js`: Arquivo de definição das rotas da API.
+- Pasta `controladores`: Contém os controladores responsáveis por tratar as requisições.
+- `intermediários.js`: Arquivo que define funções intermediárias para validação e autenticação.
+
+## Endpoints da API
+Aqui estão os endpoints disponíveis na API:
 
 ### Listar contas bancárias
-`GET` `/contas?senha_banco=Cubos123Bank`
-
-Esse endpoint deverá listar todas as contas bancárias existentes.
+- Método: GET
+- Rota: /contas
+- Parâmetros: senha_banco - Senha do banco para autenticação
+- Descrição: Lista todas as contas bancárias existentes.
 
 ### Criar conta bancária
+- Método: POST
+- Rota: /contas
+- Descrição: Cria uma conta bancária, gerando um número único de identificação.
 
-#### `POST` `/contas`
+  #### Exemplo de Requisição
 
-Esse endpoint deverá criar uma conta bancária, onde será gerado um número único para identificação da conta (número da conta).
+```javascript
+// POST /contas
+{
+    "nome": "Foo Bar 2",
+    "cpf": "00011122234",
+    "data_nascimento": "2021-03-15",
+    "telefone": "71999998888",
+    "email": "foo@bar2.com",
+    "senha": "12345"
+}
+```
 
 ### Atualizar usuário da conta bancária
+- Método: PUT
+- Rota: /contas/:numeroConta/usuario
+- Descrição: Atualiza os dados do usuário de uma conta bancária específica.
 
-#### `PUT` `/contas/:numeroConta/usuario`
-
-Esse endpoint deverá atualizar apenas os dados do usuário de uma conta bancária.
+#### Exemplo de Requisição
+```javascript
+// PUT /contas/:numeroConta/usuario
+{
+    "nome": "Foo Bar 3",
+    "cpf": "99911122234",
+    "data_nascimento": "2021-03-15",
+    "telefone": "71999998888",
+    "email": "foo@bar3.com",
+    "senha": "12345"
+{
+```
 
 ### Excluir Conta
-
-#### `DELETE` `/contas/:numeroConta`
-
-Esse endpoint deve excluir uma conta bancária existente.
+- Método: DELETE
+- Rota: /contas/:numeroConta
+- Descrição: Exclui uma conta bancária existente.
 
 ### Depositar
+- Método: POST
+- Rota: /transacoes/depositar
+- Descrição: Realiza um depósito em uma conta válida e registra a transação.
 
-#### `POST` `/transacoes/depositar`
-
-Esse endpoint deverá somar o valor do depósito ao saldo de uma conta válida e registrar essa transação.
+#### Exemplo de Requisição
+```javascript
+// POST /transacoes/depositar
+{
+	"numero_conta": "1",
+	"valor": 1900
+}
+```
 
 ### Sacar
+- Método: POST
+- Rota: /transacoes/sacar
+- Descrição: Realiza um saque em uma conta bancária e registra a transação.
 
-#### `POST` `/transacoes/sacar`
+- #### Exemplo de Requisição
+```javascript
+// POST /transacoes/sacar
+{
+	"numero_conta": "1",
+	"valor": 1900,
+    "senha": "123456"
+}
+```
 
-Esse endpoint deverá realizar o saque de um valor em uma determinada conta bancária e registrar essa transação.
+### Transferir
+- Método: POST
+- Rota: /transacoes/transferir
+- Descrição: Permite a transferência de recursos entre contas bancárias e registra a transação.
 
-### Tranferir
-
-#### `POST` `/transacoes/transferir`
-
-Esse endpoint deverá permitir a transferência de recursos (dinheiro) de uma conta bancária para outra e registrar essa transação.
-
+#### Exemplo de Requisição
+```javascript
+// POST /transacoes/transferir
+{
+	"numero_conta_origem": "1",
+	"numero_conta_destino": "2",
+	"valor": 200,
+	"senha": "123456"
+}
+```
 
 ### Saldo
-
-#### `GET` `/contas/saldo?numero_conta=123&senha=123`
-
-Esse endpoint deverá retornar o saldo de uma conta bancária.
+- Método: GET
+- Rota: /contas/saldo
+- Parâmetros: numero_conta - Número da conta, senha - Senha do usuário
+- Descrição: Retorna o saldo de uma conta bancária.
 
 ### Extrato
+- Método: GET
+- Rota: /contas/extrato
+- Parâmetros: numero_conta - Número da conta, senha - Senha do usuário
+- Descrição: Lista as transações realizadas em uma conta específica.
 
-#### `GET` `/contas/extrato?numero_conta=123&senha=123`
 
-Esse endpoint deverá listar as transações realizadas de uma conta específica.
+  
+##### Exemplo de Resposta do Extrato
+![image](https://github.com/ajuliamm/primeira-api-rest/assets/93016620/18f0fe16-7260-4632-8fae-32e804663ff8)
 
+
+
+
+## Executando o Projeto
+Para executar este projeto, siga os passos abaixo:
+
+1. Clone este repositório.
+2. Instale as dependências necessárias com o comando: npm install.
+3. Inicie a aplicação com: `npm run dev`.
+
+Este projeto foi desenvolvido no contexto do curso de backend da Cubos Academy, com o intuito de fornecer um exemplo de API REST para um Banco Digital. Sinta-se à vontade para usá-lo como base para seus próprios projetos ou estudos.
 
 ###### tags: `back-end` `módulo 2` `nodeJS` `API REST` `desafio`
